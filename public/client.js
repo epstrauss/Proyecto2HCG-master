@@ -1,4 +1,11 @@
-//TALLER 2 PARTE 1
+/**********************************************/
+/*               PROYECTO 2 HCG               */
+/**********************************************/
+/* GRUPO: 1IL131                              */
+/* INTEGRANTES: CILLI, ÃNGEL (E-8-182257)     */
+/*              STRAUSS, EUGENIA (20-70-4569) */
+/**********************************************/
+
 import * as THREE from 'three';
 import { OrbitControls } from './jsm/controls/OrbitControls.js'
 import Stats from './jsm/libs/stats.module.js'
