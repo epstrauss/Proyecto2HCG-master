@@ -2,7 +2,7 @@
 /*               PROYECTO 2 HCG               */
 /**********************************************/
 /* GRUPO: 1IL131                              */
-/* INTEGRANTES: CILLI, ÃNGEL (E-8-182257)     */
+/* ESTUDIANTE:                                */
 /*              STRAUSS, EUGENIA (20-70-4569) */
 /**********************************************/
 
@@ -291,37 +291,6 @@ window.addEventListener(
     false
 )
 
-// GENERACIÓN DEL LUGIÉRNAGAS ////////////////////
-const luciernagas = [];
-const pointLights = [];
-for ( let i = 0; i < 50; i ++ ) { //Cantidad de puntos
-	const x = THREE.MathUtils.randFloatSpread( 100 ); //Dispersión en x
-	const y = THREE.MathUtils.randFloatSpread( 100 ); //Dispersión en y
-	const z = THREE.MathUtils.randFloatSpread( 100 ); //Dispersión en z
-	luciernagas.push( x, y, z );
-    pointLights.push( x, y, z );
-}
-const aspectoLuciernagas = createRadial()
-function createRadial()
-{
-    let canvas = document.createElement("canvas")
-    canvas.width = canvas.height = 256
-    let context= canvas.getContext("2d")
-    let pointsGradient = context.createRadialGradient(127, 127, 1, 127, 127, 127)
-    pointsGradient.addColorStop( 0, "aquamarine" )
-    pointsGradient.addColorStop( 1, "transparent" )
-    context.fillStyle = pointsGradient
-    context.fillRect(0,0,256,256)
-    return new THREE.CanvasTexture(canvas)
-}
-
-const pointsGeometry = new THREE.BufferGeometry();
-pointsGeometry.setAttribute( 'position', new THREE.Float32BufferAttribute( luciernagas, 3 ) );
-const pointsMaterial = new THREE.PointsMaterial( { color : 0xFFFF80, map : aspectoLuciernagas, alphaTest : 0, transparent : true, blending : THREE.AdditiveBlending} );
-const points = new THREE.Points( pointsGeometry, pointsMaterial );
-points.add( new THREE.PointLight( 0xFFFFFF, 0.5 ) )
-scene.add( points );
-
 const stats = Stats()
 document.body.appendChild(stats.dom)
 
@@ -363,9 +332,7 @@ function animate() {
     triforceobj.position.y = (Math.sin(tfloat)*4 + 8) 
     triforceobj.rotateY(-0.03/2) 
    
-    points.rotation.x += Math.random()/500;
-    points.rotation.y += Math.random()/500;
-    points.rotation.z += Math.random()/500;
+   
 
     controls.update()
    
