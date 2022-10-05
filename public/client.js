@@ -138,15 +138,11 @@ function onWindowResize() {
 
 //background
 
-// SKYBOX ////////////////////////////////////////
 
-scene.background = new THREE.CubeTextureLoader().setPath( 'skybox/forest/' ).load( [
-	'px.png', 'nx.png',
-	'py.png', 'ny.png',
-	'pz.png', 'nz.png'
-] );
 
-//scene.background = new THREE.Color( 0x2A2A27 );
+
+
+scene.background = new THREE.Color( 0x2A2A27 );
   
 //Create a plane that receives shadows (but does not cast them)
 const planeGeometry = new THREE.PlaneGeometry( 200, 200, 320, 320 );
