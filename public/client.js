@@ -130,7 +130,16 @@ function onWindowResize() {
 
 
 //background
-scene.background = new THREE.Color( 0x2A2A27 );
+
+// SKYBOX ////////////////////////////////////////
+
+scene.background = new THREE.CubeTextureLoader().setPath( 'skybox/forest/' ).load( [
+	'px.png', 'nx.png',
+	'py.png', 'ny.png',
+	'pz.png', 'nz.png'
+] );
+
+//scene.background = new THREE.Color( 0x2A2A27 );
   
 //Create a plane that receives shadows (but does not cast them)
 const planeGeometry = new THREE.PlaneGeometry( 200, 200, 320, 320 );
@@ -241,7 +250,7 @@ scene.add( ptlight1 );
 //Create a helper for the shadow camera
 const sphereSize = 1;
 const pointtLightHelper1 = new THREE.PointLightHelper( ptlight1, sphereSize );
-scene.add( pointtLightHelper1 );
+//scene.add( pointtLightHelper1 );
 
 //point light navi
 const pnlight = new THREE.PointLight( 0x00ffFF, 0.8, 30);
@@ -256,7 +265,7 @@ pnlight.shadow.camera.far = 30; // default
 //Create a helper for the shadow camera
 
 
-
+//object group that surrounds triforce and spins
 const triforceobj= new THREE.Object3D()
 
 triforceobj.add(pnlight)
@@ -278,33 +287,47 @@ window.addEventListener(
     },
     false
 )
+
+// GENERACIÓN DEL LUGIÉRNAGAS ////////////////////
+const luciernagas = [];
+const pointLights = [];
+for ( let i = 0; i < 50; i ++ ) { //Cantidad de puntos
+	const x = THREE.MathUtils.randFloatSpread( 100 ); //Dispersión en x
+	const y = THREE.MathUtils.randFloatSpread( 100 ); //Dispersión en y
+	const z = THREE.MathUtils.randFloatSpread( 100 ); //Dispersión en z
+	luciernagas.push( x, y, z );
+    pointLights.push( x, y, z );
+}
+const aspectoLuciernagas = createRadial()
+function createRadial()
+{
+    let canvas = document.createElement("canvas")
+    canvas.width = canvas.height = 256
+    let context= canvas.getContext("2d")
+    let pointsGradient = context.createRadialGradient(127, 127, 1, 127, 127, 127)
+    pointsGradient.addColorStop( 0, "aquamarine" )
+    pointsGradient.addColorStop( 1, "transparent" )
+    context.fillStyle = pointsGradient
+    context.fillRect(0,0,256,256)
+    return new THREE.CanvasTexture(canvas)
+}
+
+const pointsGeometry = new THREE.BufferGeometry();
+pointsGeometry.setAttribute( 'position', new THREE.Float32BufferAttribute( luciernagas, 3 ) );
+const pointsMaterial = new THREE.PointsMaterial( { color : 0xFFFF80, map : aspectoLuciernagas, alphaTest : 0, transparent : true, blending : THREE.AdditiveBlending} );
+const points = new THREE.Points( pointsGeometry, pointsMaterial );
+points.add( new THREE.PointLight( 0xFFFFFF, 0.5 ) )
+scene.add( points );
+
 const stats = Stats()
 document.body.appendChild(stats.dom)
 
 
-const dirlightFolder = gui.addFolder('Tlight')
+const dirlightFolder = gui.addFolder('Main light')
 dirlightFolder.add(ptlight1.position, 'x', -30, 30)
 dirlightFolder.add(ptlight1.position, 'y', 0, 90)
 dirlightFolder.add(ptlight1.position, 'z', -30, 30)
 dirlightFolder.open()
-
-const plightFolder = gui.addFolder('PointLight Navi')
-plightFolder.add(triforceobj.position, 'x', -15, 15)
-plightFolder.add(triforceobj.position, 'y', 0, 15)
-plightFolder.add(triforceobj.position, 'z', -15, 15)
-plightFolder.open()
-
-
-
-const cameraFolder = gui.addFolder('Camera')
-cameraFolder.add(camera.position, 'x', -50, 50)
-cameraFolder.add(camera.position, 'y', -50, 50)
-cameraFolder.add(camera.position, 'z', -50, 50)
-cameraFolder.open()
-
-// movement - please calibrate these values
-var xSpeed =1;
-var ySpeed = 1;
 
 
 
@@ -337,6 +360,9 @@ function animate() {
     triforceobj.position.y = (Math.sin(tfloat)*4 + 8) 
     triforceobj.rotateY(-0.03/2) 
    
+    points.rotation.x += Math.random()/500;
+    points.rotation.y += Math.random()/500;
+    points.rotation.z += Math.random()/500;
 
     controls.update()
    
