@@ -6,7 +6,7 @@ for academic and personal purpouses only.
 --Download copy of code, open folder in visual studio code
 
 ## RUN
-npm app.js
+node app.js
 
 ## ENJOY
 :) 
